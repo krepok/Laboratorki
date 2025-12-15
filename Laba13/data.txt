@@ -1,0 +1,3 @@
+14;square;red,violet,red,pion,pion
+13;rectangle;violet,green,blue,black,pion
+1;square;pion,red,blue

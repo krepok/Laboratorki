@@ -1,0 +1,5 @@
+Ivanov Kirill;003;Calc 6,DiscreteMath 8
+Dmitrochenko Pavel;002;Algebra 10,DiscreteMath 8
+Ivanov Kirill;001;Calc 9,DiscreteMath 8,DiscreteMath 10
+Yanchenko Eldar;004;DiscreteMath 5,Calc 10,Geometry 10
+George Vahtangovich;005;English 10,Calc 10,DiscreteMath 10,Geometry 10,Geometry 10,Calc 10,Algebra 9

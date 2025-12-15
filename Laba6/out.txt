@@ -1,0 +1,2 @@
+Generated array: 3 -4 -3 -10 -8 8 -6 -3 6 -5 -3 -10 
+Number of unique elements is 9
