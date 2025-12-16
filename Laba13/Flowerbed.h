@@ -13,14 +13,13 @@ struct Flowerbed
 	std::string shape{};
 	std::list<std::string> flowers{};
 
-	Flowerbed() = default;
-	Flowerbed(int, std::string, std::list<std::string>);
+	Flowerbed(int = -1, std::string = "None", std::list<std::string> = { "None" });
 	Flowerbed(const Flowerbed&);
 	Flowerbed(Flowerbed&&) noexcept;
 
 	bool hasFlower(std::string_view) const;
 	friend std::ostream& operator<<(std::ostream&, const Flowerbed&);
-	Flowerbed operator=(const Flowerbed&);
+	Flowerbed& operator=(const Flowerbed&);
 };
 
 class Ridge

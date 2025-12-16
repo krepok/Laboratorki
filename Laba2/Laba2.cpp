@@ -21,9 +21,9 @@ int main()
 		{
 			printPrimes(num);
 		}
-		catch (const char* text)
+		catch (const std::invalid_argument& e)
 		{
-			std::cout << text << '\n';
+			std::cout << e.what() << '\n';
 		}
 
 		std::cout << "Enter a number: ";
@@ -39,9 +39,9 @@ int main()
 		int index{ getNum() };
 		std::cout << "Digit with index " << index << " is " << findIndex(index);
 	}
-	catch (const char* text)
+	catch (const std::invalid_argument& e)
 	{
-		std::cout << text << '\n';
+		std::cout << e.what() << '\n';
 	}
 
 	return 0;
@@ -50,14 +50,13 @@ int main()
 void getBounds(int& lowerBound, int& higherBound)
 {
 	std::cout << "Enter lower and higher bound: ";
-	std::cin >> lowerBound >> higherBound;
-	if (!std::cin)
+	if (!(std::cin >> lowerBound >> higherBound))
 	{
-		throw "You entered wrong bounds!";
+		throw std::invalid_argument("You entered wrong bounds!");
 	}
 	if (lowerBound < 1 || higherBound < 1)
 	{
-		throw "Bounds should be greater than 0!";
+		throw std::invalid_argument("Bounds should be greater than 0!");
 	}
 	if (lowerBound > higherBound)
 	{
@@ -68,8 +67,7 @@ void getBounds(int& lowerBound, int& higherBound)
 int getNum()
 {
 	int num{};
-	std::cin >> num;
-	if (!std::cin)
+	if (!(std::cin >> num))
 	{
 		throw "You entered non number value!";
 	}
@@ -80,25 +78,26 @@ int getNum()
 	return num;
 }
 
-int findIndex(int index)
+int findIndex(int index) // делим числа на группы по длине 
 {
-	int length{ 1 };
-	int count{ 9 };
-	int start{ 1 };
+	int length{ 1 };	// длина группы
+	int count{ 9 };		// кол-во чисел в группе
+	int start{ 1 };		// первый элемент группы
 
-	while (index > length * count) 
-	{
+	while (index > length * count) // находим в какой группе находится наше число
+	{							   // и находит индекс от с началом отсчета с первого элемента группы
 		index -= length * count;
 		length++;
 		count *= 10;
 		start *= 10;
 	}
 
-	int number{ start + (index - 1) / length };
+	int number{ start + (index - 1) / length }; // находим число в котором находится цифра с нашим индексом
 
-	int digitPos{ (index - 1) % length };
+	int digitPos{ (index - 1) % length }; // позиция индекса в числе
 
-	for (int i = 0; i < length - 1 - digitPos; ++i) 
+	int temp{ length - 1 - digitPos };
+	for (int i = 0; i < length - 1 - digitPos; ++i) // находим цифру под нашим индексом
 	{
 		number /= 10;
 	}
@@ -204,7 +203,7 @@ void printPrimes(int num)
 {
 	if (num == 1)
 	{
-		throw "1 doesn't have prime factors!";
+		throw std::invalid_argument("1 doesn't have prime factors!");
 	}
 	std::cout << "Prime factors is: ";
 	int i{ 2 };

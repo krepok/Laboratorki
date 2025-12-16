@@ -2,6 +2,8 @@
 #include "Fraction.h"
 #include <string>
 #include <cmath>
+#include <vector>
+#include <algorithm>
 
 int main()
 {
@@ -13,6 +15,9 @@ int main()
 
 	Fraction fraction1{ -1, 2 };
 	Fraction fraction2{ 1, 3 };
+
+	std::cout << fraction1 + 3;
+	std::cout << 3 + fraction1;
 
 	std::cout << fraction1 << " + " << fraction2 << " = " << fraction1 + fraction2 << '\n';
 	std::cout << fraction1 << " - " << fraction2 << " = " << fraction1 - fraction2 << '\n';
@@ -50,6 +55,23 @@ int main()
 	{
 		std::cout << fraction4 << " < " << fraction5 << '\n';
 	}
+
+	std::vector<Fraction> vector{fraction2, fraction1, fraction3, fraction4, fraction5};
+
+	for (const auto& fr : vector)
+	{
+		std::cout << fr << ' ';
+	}
+	std::cout << '\n';
+
+	std::sort(vector.begin(), vector.end());
+
+	for (const auto& fr : vector)
+	{
+		std::cout << fr << ' ';
+	}
+	std::cout << '\n';
+
 
 	return 0;
 }

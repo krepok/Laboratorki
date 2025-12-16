@@ -16,23 +16,8 @@ int Fraction::nok(int denom1, int denom2) const
 	return denom1 * denom2 / nod(denom1, denom2);
 }
 
-Fraction::Fraction()
-	: num{ 0 }, denom{ 1 }
+void Fraction::reduce()
 {
-}
-
-Fraction::Fraction(int _num, int _denom)
-	: num{ _num }, denom{ _denom }
-{
-	if (_denom == 0)
-	{
-		denom = 1;
-	}
-	if (denom < 0)
-	{
-		num *= -1;
-		denom *= -1;
-	}
 	if (int n = nod(num, denom); n != 1)
 	{
 		num /= n;
@@ -40,9 +25,19 @@ Fraction::Fraction(int _num, int _denom)
 	}
 }
 
-Fraction::Fraction(int _num)
-	: num{ _num }, denom { 1 }
+Fraction::Fraction(int _num, int _denom)
+	: num{ _num }, denom{ _denom }
 {
+	if (_denom == 0)
+	{
+		throw std::invalid_argument("You entered 0 as a denom!");
+	}
+	if (denom < 0)
+	{
+		num *= -1;
+		denom *= -1;
+	}
+	reduce();
 }
 
 Fraction::Fraction(const Fraction& other)
@@ -61,12 +56,12 @@ Fraction Fraction::operator+(const Fraction& other) const
 {
 	if (this->denom == other.denom)
 	{
-		return { this->num + other.num, this->denom };
+		return Fraction{ this->num + other.num, this->denom };
 	}
 	else
 	{
 		int n{ nok(this->denom, other.denom) };
-		return { this->num * other.denom + other.num * this->denom , n};
+		return Fraction{ this->num * other.denom + other.num * this->denom , n};
 	}
 }
 
@@ -93,46 +88,52 @@ Fraction Fraction::operator/(const Fraction& other) const
 	return { this->num * other.denom, this->denom * other.num };
 }
 
-Fraction Fraction::operator=(const Fraction& other)
+Fraction& Fraction::operator=(const Fraction& other)
 {
-	if (this == &other)
+	if (this != &other)
 	{
-		return *this;
+		this->num = other.num;
+		this->denom = other.denom;
 	}
-	this->num = other.num;
-	this->denom = other.denom;
 	return *this;
 }
 
-Fraction Fraction::operator=(Fraction&& other) noexcept 
+Fraction& Fraction::operator=(Fraction&& other) noexcept 
 {
-	this->num = other.num;
-	this->denom = other.denom;
-	other.num = 0;
-	other.denom = 1;
+	if (this != &other)
+	{
+		this->num = other.num;
+		this->denom = other.denom;
+		other.num = 0;
+		other.denom = 1;
+	}
 	return *this;
 }
 
-Fraction Fraction::operator+=(const Fraction& other)
+Fraction& Fraction::operator+=(const Fraction& other)
 {
 	*this = *this + other;
 	return *this;
 }
 
-Fraction Fraction::operator-=(const Fraction& other)
+Fraction& Fraction::operator-=(const Fraction& other)
 {
 	*this = *this - other;
 	return *this;
 }
 
-Fraction Fraction::operator*=(const Fraction& other)
+Fraction& Fraction::operator*=(const Fraction& other)
 {
 	*this = *this * other;
 	return *this;
 }
 
-Fraction Fraction::operator/=(const Fraction& other)
+Fraction& Fraction::operator/=(const Fraction& other)
 {
+	if (other == 0)
+	{
+		throw std::invalid_argument("Can't divide by 0!");
+	}
 	*this = *this / other;
 	return *this;
 }
@@ -141,77 +142,55 @@ Fraction Fraction::operator!() const
 {
 	if (this->num == 0)
 	{
-		return 0;
+		throw std::invalid_argument("Can't get reciprocal fraction of 0!");
 	}
 	return { this->denom, this->num };
 }
 
 Fraction Fraction::operator-() const
 {
-	return *this * -1;
+	Fraction temp{ *this * -1 };
+	return temp;
 }
 
 bool Fraction::operator==(const Fraction& other) const
 {
-	if (this->num == other.num && this->denom == other.denom)
-	{
-		return true;
-	}
-	return false;
+	return this->num == other.num && this->denom == other.denom;
 }
 
 bool Fraction::operator!=(const Fraction& other) const
 {
-	if (this->num == other.num && this->denom == other.denom)
-	{
-		return false;
-	}
-	return true;
+	return !(*this == other);
 }
 
 bool Fraction::operator>(const Fraction& other) const
 {
-	if (to_double(*this) > to_double(other))
-	{
-		return true;
-	}
-	return false;
+	return to_double(*this) > to_double(other);
 }
 
 bool Fraction::operator<(const Fraction& other) const
 {
-	if (to_double(*this) < to_double(other))
-	{
-		return true;
-	}
-	return false;
+	return to_double(*this) < to_double(other);
+
 }
 
 bool Fraction::operator>=(const Fraction& other) const
 {
-	if (to_double(*this) >= to_double(other))
-	{
-		return true;
-	}
-	return false;
+	return *this > other || *this == other;
 }
 
 bool Fraction::operator<=(const Fraction& other) const
 {
-	if (to_double(*this) <= to_double(other))
-	{
-		return true;
-	}
-	return false;
+	return *this < other || *this == other;
 }
 
-Fraction Fraction::operator++()
+Fraction& Fraction::operator++()
 {
 	this->num += this->denom;
 	return *this;
 }
 
-Fraction Fraction::operator--()
+Fraction& Fraction::operator--()
 {
 	this->num -= this->denom;
 	return *this;
@@ -229,6 +208,26 @@ Fraction Fraction::operator--(int)
 	Fraction temp{ *this };
 	this->num -= this->denom;
 	return temp;
+}
+
+Fraction operator+(int num, const Fraction& fraction)
+{
+	return fraction + num;
+}
+
+Fraction operator-(int num, const Fraction& fraction)
+{
+	return Fraction{ num } - fraction;
+}
+
+Fraction operator*(int num, const Fraction& fraction)
+{
+	return fraction * num;
+}
+
+Fraction operator/(int num, const Fraction& fraction)
+{
+	return Fraction{ num } / fraction;
 }
 
 std::ostream& operator<<(std::ostream& out, const Fraction& fraction)
@@ -252,10 +251,9 @@ std::istream& operator>>(std::istream& in, Fraction& fraction)
 	in >> num >> slash >> denom;
 	if (!in)
 	{
-		num = 0;
-		denom = 1;
 		in.clear();
 		in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		throw std::invalid_argument("You entered invalid fraction!");
 	}
 	Fraction temp{ num, denom };
 	fraction = temp;

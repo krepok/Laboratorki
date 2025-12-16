@@ -36,7 +36,7 @@ bool Flowerbed::hasFlower(std::string_view flower) const
 	return std::find(flowers.begin(), flowers.end(), flower) != flowers.end();
 }
 
-Flowerbed Flowerbed::operator=(const Flowerbed& other)
+Flowerbed& Flowerbed::operator=(const Flowerbed& other)
 {
 	this->flowers = other.flowers;
 	this->idFlowerbed = other.idFlowerbed;

@@ -8,15 +8,15 @@
 
 struct SMark
 {
-	std::string subject;
-	int mark;
+	std::string subject{};
+	int mark{};
 };
 
 struct SStudData
 {
-	std::string name;
-	int id; 
-	std::vector<SMark> marks;
+	std::string name{};
+	int id{};
+	std::vector<SMark> marks{};
 
 	friend std::ostream& operator<<(std::ostream& in, const SStudData& other)
 	{
@@ -32,29 +32,27 @@ struct SStudData
 
 	bool operator>(const SStudData& other) const
 	{
-		if (this->name != other.name)
-		{
-			return this->name > other.name;
-		}
-		return false;
+		return this->name > other.name;
 	}
 
 	bool operator<(const SStudData& other) const
 	{
-		if (this->name != other.name)
-		{
-			return this->name < other.name;
-		}
-		return false;
+		return this->name < other.name;
 	}
 
 	bool operator==(const SStudData& other) const
 	{
-		if (this->name == other.name)
-		{
-			return true;
-		}
-		return false;
+		return this->name == other.name;
+	}
+
+	bool operator>=(const SStudData& other) const
+	{
+		return *this > other || *this == other;
+	}
+
+	bool operator<=(const SStudData& other) const
+	{
+		return *this < other || *this == other;
 	}
 };
 
@@ -93,11 +91,11 @@ int main()
 			MapStudents temp{ getStudentsSubject(students, subject) };
 			if (temp.empty())
 			{
-				throw std::exception("There is no such subject!");
+				throw std::invalid_argument("There is no such subject!");
 			}
 			printStudents(temp);
 		}
-		catch (const std::exception& e)
+		catch (const std::invalid_argument& e)
 		{
 			std::cout << e.what() << '\n';
 		}
@@ -106,16 +104,18 @@ int main()
 		std::cout << '\n';
 
 		printAverageSubject(students);
+		std::cout << '\n';
 
 		MultimapStudents temp1{ getStudentsMaxAv(students) };
 		std::cout << "Students with max average:\n";
 		printStudentsAverages(temp1);
+		std::cout << '\n';
 
 		MapStudents temp2{ getStudentsFailed(students) };
 		std::cout << "Students who failed:\n";
 		printStudentsAverages(temp2);
 	}
-	catch (const std::exception& e)
+	catch (const std::invalid_argument& e)
 	{
 		std::cout << e.what() << '\n';
 	}
@@ -127,15 +127,15 @@ void checkFile(std::ifstream& fin)
 {
 	if (!fin.is_open())
 	{
-		throw std::exception("Couldn't open a file!");
+		throw std::invalid_argument("Couldn't open a file!");
 	}
 	if (fin.peek() == EOF)
 	{
-		throw std::exception("File is empty!");
+		throw std::invalid_argument("File is empty!");
 	}
 }
 
-std::vector<SMark> getVectorMark(std::string& info)
+std::vector<SMark> getVectorMark(std::string& info) // возвращает вектор с оценками
 {
 	std::vector<SMark> infoStr{};
 
@@ -154,7 +154,7 @@ std::vector<SMark> getVectorMark(std::string& info)
 	return infoStr;
 }
 
-std::vector<std::string> getVectorInfo(std::string& info)
+std::vector<std::string> getVectorInfo(std::string& info) // возвращает вектор строк с разделенной информацией
 {
 	std::vector<std::string> infoStr{};
 
@@ -169,7 +169,7 @@ std::vector<std::string> getVectorInfo(std::string& info)
 	return infoStr;
 }
 
-MapStudents getInfo(std::ifstream& fin)
+MapStudents getInfo(std::ifstream& fin) // получает информацию из файла
 {
 	checkFile(fin);
 	std::string info{};
@@ -179,7 +179,7 @@ MapStudents getInfo(std::ifstream& fin)
 	{
 		std::vector<std::string> infoVector{ getVectorInfo(info) };  // 0 - имя, 1 - зачетка, 2 - оценки
 
-		infoMap.insert({ stoi(infoVector.at(1)), { infoVector.at(0), stoi(infoVector.at(1)), getVectorMark(infoVector.at(2)) } });
+		infoMap[stoi(infoVector.at(1))] = SStudData{ infoVector.at(0), stoi(infoVector.at(1)), getVectorMark(infoVector.at(2)) };
 	}
 
 	return infoMap;
@@ -200,7 +200,7 @@ std::map<int, double> getAllAverages(const MapStudents students)
 	std::map<int, double> averages{};
 	for (auto& [id, student] : students)
 	{
-		averages.insert({ id, getAverage(student) });
+		averages[id] = getAverage(student);
 	}
 	return averages;
 }
@@ -270,7 +270,6 @@ void printStudentsAverages(const MultimapAverage& studentsAv)
 	{
 		std::cout << counter++ << ". " << student.name << ", " << student.id << ", average grade: " << average << '\n';
 	}
-	
 }
 
 MultimapAverage getStudentsRange(const MapStudents& students, double lower, double higher)
@@ -294,10 +293,13 @@ void printInRange(const MapStudents& students)
 	double lower{};
 	double higher{};
 	std::cout << "Enter range of average grade( lowest - highest ): ";
-	std::cin >> lower >> higher;
-	if (!std::cin || lower > higher || lower < 0 || lower > 10 || higher < 0 || higher > 10)
+	if (!(std::cin >> lower >> higher) || lower > higher)
 	{
-		throw std::exception("You entered something wrong!");
+		throw std::invalid_argument("You entered something wrong!");
+	}
+	if (lower < 0 || lower > 10 || higher < 0 || higher > 10)
+	{
+		throw std::invalid_argument("You can't have this grade!");
 	}
 
 	std::cout << "Students with average grade in range " << lower << " - " << higher << ":\n";
@@ -314,7 +316,7 @@ MapStudents getStudentsSubject(const MapStudents& students, std::string_view sub
 		{
 			if (mark.subject == subject)
 			{
-				studentsSubject.insert({ id, student });
+				studentsSubject[id] = student;
 				break;
 			}
 		}
@@ -427,7 +429,7 @@ MapStudents getStudentsFailed(MapStudents students)
 		{
 			if (mark.mark < 4)
 			{
-				studentsFailed.insert({ id, student });
+				studentsFailed[id] = student;
 			}
 		}
 	}
@@ -437,19 +439,20 @@ MapStudents getStudentsFailed(MapStudents students)
 
 std::string getSubject()
 {
-	std::string subject{};
+	std::string subject;
 	std::cout << "Enter subject you want to find ( enter 'no' if you don't need it ): ";
+	std::cin.ignore();
 	if (!std::getline(std::cin, subject))
 	{
-		throw std::exception("You entered something wrong!");
+		throw std::invalid_argument("You entered something wrong!\n");
 	}
 	if (subject.empty())
 	{
-		throw std::exception("You didn't enter anything!");
+		throw std::invalid_argument("You didn't enter anything!\n");
 	}
 	if (subject == "no")
 	{
-		throw std::exception("Ok!");
+		throw std::invalid_argument("Ok!\n");
 	}
 	return subject;
 }

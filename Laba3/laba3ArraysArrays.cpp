@@ -20,6 +20,16 @@ enum class ArrayType
 	DynamicCArray,
 };
 
+int getInfo()
+{
+	int temp{};
+	if (!(std::cin >> temp))
+	{
+		throw std::invalid_argument("You entered invalid value!");
+	}
+	return temp;
+}
+
 ArrayType getArrayType()
 {
 	std::cout <<
@@ -28,9 +38,7 @@ ArrayType getArrayType()
 		"3. std::array\n" <<
 		"4. std::vector\n" <<
 		"Enter type of array to use: ";
-	int arrayType{};
-	std::cin >> arrayType;
-	switch (arrayType)
+	switch (int arrayType{ getInfo() }; arrayType)
 	{
 	case 1:
 		return ArrayType::CArray;
@@ -41,7 +49,7 @@ ArrayType getArrayType()
 	case 4:
 		return ArrayType::Vector;
 	default:
-		throw std::exception("Incorrect number!");
+		throw std::invalid_argument("Incorrect number!");
 	}
 }
 
@@ -49,14 +57,13 @@ size_t getSize()
 {
 	std::cout << "Enter size of array: ";
 	size_t size{};
-	std::cin >> size;
-	if (!std::cin)
+	if (!(std::cin >> size))
 	{
-		throw std::exception("You entered non integer value!");
+		throw std::invalid_argument("You entered non integer value!");
 	}
 	if (size < 2)
 	{
-		throw std::exception("Size can't be less than 2!");
+		throw std::invalid_argument("Size can't be less than 2!");
 	}
 	return size;
 }
@@ -67,10 +74,9 @@ void getArrayFromUser(T& arr, size_t size)
 	std::cout << "Enter array: ";
 	for (int i = 0; i < size; i++)
 	{
-		std::cin >> arr[i];
-		if (!std::cin)
+		if (!(std::cin >> arr[i]))
 		{
-			throw std::exception("You entered non integer value!");
+			throw std::invalid_argument("You entered non integer value!");
 		}
 	}
 }
@@ -78,14 +84,13 @@ void getArrayFromUser(T& arr, size_t size)
 void getBounds(int& lower, int& higher)
 {
 	std::cout << "Enter bounds of elements: ";
-	std::cin >> lower >> higher;
-	if (!std::cin)
+	if (!(std::cin >> lower >> higher))
 	{
-		throw std::exception("You entered non integer value!");
+		throw std::invalid_argument("You entered non integer value!");
 	}
 	if (lower > higher)
 	{
-		throw std::exception("Lower bound can't be greater than higher!");
+		throw std::invalid_argument("Lower bound can't be greater than higher!");
 	}
 }
 
@@ -95,16 +100,14 @@ RandomType getRandomType()
 		"1. Rand()\n" <<
 		"2. Mersenne twister\n" <<
 		"Enter type of random: ";
-	int dataType{};
-	std::cin >> dataType;
-	switch (dataType)
+	switch (int dataType{ getInfo() }; dataType)
 	{
 	case 1:
 		return RandomType::Rand;
 	case 2:
 		return RandomType::Mersenne;
 	default:
-		throw std::exception("Incorrect number!");
+		throw std::invalid_argument("Incorrect number!");
 	}
 }
 
@@ -153,10 +156,9 @@ char getWay()
 {
 	char wayToGetArray{};
 	std::cout << "Enter how you want to make an array (r - for random, m - for manually): ";
-	std::cin >> wayToGetArray;
-	if (!std::cin)
+	if (!(std::cin >> wayToGetArray))
 	{
-		throw std::exception("You entered non integer value");
+		throw std::invalid_argument("You entered non integer value");
 	}
 	return wayToGetArray;
 }
@@ -164,8 +166,7 @@ char getWay()
 template<typename T>
 void getArray(T& arr, size_t size)
 {
-	char wayToGetArray{ getWay() };
-	switch (wayToGetArray)
+	switch (char wayToGetArray{ getWay() }; wayToGetArray)
 	{
 	case 'r':
 	case 'R':
@@ -176,7 +177,7 @@ void getArray(T& arr, size_t size)
 		getArrayFromUser(arr, size);
 		break;
 	default:
-		throw std::exception("You entered wrong value!");
+		throw std::invalid_argument("You entered wrong value!");
 	}
 }
 
@@ -200,7 +201,7 @@ double getMultOfElements(const T& arr, size_t size)
 		{
 			if (arr[i + 1] == 0)
 			{
-				throw std::exception("There are no elements between two zeros!");
+				throw std::invalid_argument("There are no elements between two zeros!");
 			}
 			for (int j = i + 1; j < size; j++)
 			{
@@ -212,7 +213,7 @@ double getMultOfElements(const T& arr, size_t size)
 			}
 		}
 	}
-	throw std::exception("There are not enough zeroes in this array!");
+	throw std::invalid_argument("There are not enough zeroes in this array!");
 }
 
 template<typename T>
@@ -268,7 +269,7 @@ void getResult(T& array, size_t size)
 		double multOfElements{ getMultOfElements(array, size) };
 		std::cout << "Product of elements between two zeros is " << multOfElements << '\n';
 	}
-	catch (std::exception& e)
+	catch (const std::invalid_argument& e)
 	{
 		std::cout << e.what() << '\n';
 	}
@@ -286,7 +287,7 @@ void getResult(T& array, size_t size, size_t maxSize)
 {
 	if (maxSize < size)
 	{
-		throw std::exception("Entered size is too big for this array type");
+		throw std::invalid_argument("Entered size is too big for this array type");
 	}
 
 	getArray(array, size);
@@ -298,7 +299,7 @@ void getResult(T& array, size_t size, size_t maxSize)
 		double multOfElements{ getMultOfElements(array, size) };
 		std::cout << "Product of elements between two zeros is " << multOfElements << '\n';
 	}
-	catch (std::exception& e)
+	catch (const std::invalid_argument& e)
 	{
 		std::cout << e.what() << '\n';
 	}
@@ -348,7 +349,7 @@ int main()
 		}
 		}
 	}
-	catch (std::exception& e)
+	catch (std::invalid_argument& e)
 	{
 		std::cout << e.what() << '\n';
 	}

@@ -11,10 +11,9 @@ private:
 
 	int nod(int, int) const;
 	int nok(int, int) const;
+	void reduce();
 public:
-	Fraction();
-	Fraction(int, int);
-	Fraction(int);
+	Fraction(int = 0, int = 1);
 	Fraction(const Fraction& other);
 	Fraction(Fraction&& other) noexcept;
 
@@ -23,13 +22,18 @@ public:
 	Fraction operator*(const Fraction&) const;
 	Fraction operator/(const Fraction&) const;
 
-	Fraction operator=(const Fraction& other);
-	Fraction operator=(Fraction&& other) noexcept;
+	friend Fraction operator+(int, const Fraction&);
+	friend Fraction operator-(int, const Fraction&);
+	friend Fraction operator*(int, const Fraction&);
+	friend Fraction operator/(int, const Fraction&);
 
-	Fraction operator+=(const Fraction&);
-	Fraction operator-=(const Fraction&);
-	Fraction operator*=(const Fraction&);
-	Fraction operator/=(const Fraction&);
+	Fraction& operator=(const Fraction& other);
+	Fraction& operator=(Fraction&& other) noexcept;
+
+	Fraction& operator+=(const Fraction&);
+	Fraction& operator-=(const Fraction&);
+	Fraction& operator*=(const Fraction&);
+	Fraction& operator/=(const Fraction&);
 
 	Fraction operator!() const;
 	Fraction operator-() const;
@@ -41,8 +45,8 @@ public:
 	bool operator>=(const Fraction&) const;
 	bool operator<=(const Fraction&) const;
 
-	Fraction operator++();
-	Fraction operator--();
+	Fraction& operator++();
+	Fraction& operator--();
 	Fraction operator++(int);
 	Fraction operator--(int);
 
