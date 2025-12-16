@@ -1,0 +1,22 @@
+Students sorted by course -> group -> name:
+course: 1, group: 1  Randall Robinson
+course: 1, group: 2  Ellis Herman
+course: 1, group: 2  Ivanov Kirill
+course: 1, group: 2  Nigel Ho
+course: 1, group: 2  Susanne Collins
+course: 2, group: 1  Georgette Fritz
+course: 2, group: 1  Katy Jensen
+course: 2, group: 1  Lacey Marshall
+course: 2, group: 1  Lessie Delacruz
+course: 2, group: 3  Bart Werner
+course: 2, group: 3  Ruby Raymond
+course: 2, group: 4  Nicky Gallagher
+course: 3, group: 1  Clayton Mercado
+course: 3, group: 1  Gabriel Washington
+course: 3, group: 1  Noemi Larson
+course: 3, group: 1  Nora Hanson
+course: 3, group: 1  Penelope Gomez
+course: 3, group: 2  Norma Eaton
+course: 3, group: 2  Val Hardy
+course: 3, group: 4  Andre Roberts
+course: 3, group: 4  Juliette Ayers

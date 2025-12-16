@@ -1,0 +1,22 @@
+Students sorted by name:
+Andre Roberts, course: 3, group: 4
+Bart Werner, course: 2, group: 3
+Clayton Mercado, course: 3, group: 1
+Ellis Herman, course: 1, group: 2
+Gabriel Washington, course: 3, group: 1
+Georgette Fritz, course: 2, group: 1
+Ivanov Kirill, course: 1, group: 2
+Juliette Ayers, course: 3, group: 4
+Katy Jensen, course: 2, group: 1
+Lacey Marshall, course: 2, group: 1
+Lessie Delacruz, course: 2, group: 1
+Nicky Gallagher, course: 2, group: 4
+Nigel Ho, course: 1, group: 2
+Noemi Larson, course: 3, group: 1
+Nora Hanson, course: 3, group: 1
+Norma Eaton, course: 3, group: 2
+Penelope Gomez, course: 3, group: 1
+Randall Robinson, course: 1, group: 1
+Ruby Raymond, course: 2, group: 3
+Susanne Collins, course: 1, group: 2
+Val Hardy, course: 3, group: 2

@@ -219,10 +219,11 @@ std::vector<T> getArrayFromFile(std::ifstream& fin)
 	checkFile(fin);
 	std::vector<T> infoStr{};
 	T temp{};
-
+	
 	while (fin >> temp)
 	{
 		infoStr.push_back(temp);
+
 	}
 	return infoStr;
 }
@@ -252,7 +253,6 @@ std::vector<Student> getArrayFromFile(std::ifstream& fin)
 template<typename T>
 void printArray(std::vector<T> info)
 {
-	std::cout << "Your array is:\n";
 	for (const auto& el : info)
 	{
 		std::cout << el << ' ';
@@ -263,7 +263,6 @@ void printArray(std::vector<T> info)
 template<>
 void printArray(std::vector<Student> info)
 {
-	std::cout << "Your array is:\n";
 	for (const auto& el : info)
 	{
 		std::cout << "------------------\n";
@@ -397,8 +396,10 @@ void getAndOutputArray(std::vector<T>& info, Way way)
 		std::ofstream fout("out.txt");
 
 		info = getArrayFromFile<T>(fin);
+		fout << "Unsorted array:\n";
+		writeArrayToFile(fout, info);
 		quickSort(info, 0, info.size() - 1);
-		fout << "Your array is:\n";
+		fout << "Sorted array:\n";
 		writeArrayToFile(fout, info);
 		std::cout << "Done!\n";
 
@@ -411,10 +412,10 @@ void getAndOutputArray(std::vector<T>& info, Way way)
 		std::ofstream fout("out.txt");
 
 		info = getRandomArray<T>();
-		fout << "Your unsorted array is:\n";
+		fout << "Unsorted array:\n";
 		writeArrayToFile(fout, info);
 		quickSort(info, 0, info.size() - 1);
-		fout << "Your sorted array is:\n";
+		fout << "Sorted array:\n";
 		writeArrayToFile(fout, info);
 		std::cout << "Done!\n";
 
@@ -426,7 +427,10 @@ void getAndOutputArray(std::vector<T>& info, Way way)
 		std::ifstream fin("in.txt");
 
 		info = getArrayFromFile<T>(fin);
+		std::cout << "Unsorted array:\n";
+		printArray(info);
 		quickSort(info, 0, info.size() - 1);
+		std::cout << "Sorted array:\n";
 		printArray(info);
 
 		fin.close();
