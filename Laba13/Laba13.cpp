@@ -55,7 +55,7 @@ void printContainer(T vector)
 		std::cout << "There are no such elements!\n";
 		return;
 	}
-	for (auto el : vector)
+	for (const auto& el : vector)
 	{
 		std::cout << el << ", ";
 	}
@@ -72,7 +72,7 @@ void printContainer(Ridge ridge)
 		return;
 	}
 	std::vector<Flowerbed> flowerbeds{ ridge.getFlowerbeds() };
-	for (auto flowerbed : flowerbeds)
+	for (const auto& flowerbed : flowerbeds)
 	{
 		std::cout << "----------\n";
 		std::cout << flowerbed;
@@ -120,8 +120,7 @@ void replaceSomeFlower(Ridge& ridge)
 int getSize()
 {
 	int size{};
-	std::cin >> size;
-	if (size < 1)
+	if (!(std::cin >> size))
 	{
 		throw std::exception("You entered invalid size!");
 	}

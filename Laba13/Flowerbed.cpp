@@ -91,7 +91,7 @@ bool Ridge::empty() const
 Ridge Ridge::getRidgeWithoutFlower(std::string_view target) const
 {
 	Ridge result;
-	for (auto& flowerbed : flowerbeds)
+	for (const auto& flowerbed : flowerbeds)
 	{
 		if (!flowerbed.hasFlower(target))
 		{
@@ -118,10 +118,10 @@ void Ridge::replaceFlower(std::string_view find, std::string replace)
 Ridge Ridge::getRidgeWithNumber(int size) const
 {
 	Ridge beds{};
-	for (auto& flowerbed : flowerbeds)
+	for (const auto& flowerbed : flowerbeds)
 	{
 		std::set<std::string> flowers{};
-		for (auto flower : flowerbed.flowers)
+		for (const auto& flower : flowerbed.flowers)
 		{
 			flowers.insert(flower);
 		}
@@ -137,9 +137,9 @@ std::set<std::string> Ridge::getSetCommonFlowers() const
 {
 	std::set<std::string> allFlowers{ getSetAllFlowers() };
 	std::set<std::string> toDelete{};
-	for (auto& flower : allFlowers)
+	for (const auto& flower : allFlowers)
 	{
-		for (auto& flowerbed : flowerbeds)
+		for (const auto& flowerbed : flowerbeds)
 		{
 			if (!flowerbed.hasFlower(flower))
 			{
@@ -148,7 +148,7 @@ std::set<std::string> Ridge::getSetCommonFlowers() const
 			}
 		}
 	}
-	for (auto& flower : toDelete)
+	for (const auto& flower : toDelete)
 	{
 		allFlowers.erase(flower);
 	}
@@ -158,9 +158,9 @@ std::set<std::string> Ridge::getSetCommonFlowers() const
 std::set<std::string> Ridge::getSetAllFlowers() const
 {
 	std::set<std::string> allFlowers{};
-	for (auto& flowerbed : flowerbeds)
+	for (const auto& flowerbed : flowerbeds)
 	{
-		for (auto flower : flowerbed.flowers)
+		for (const auto flower : flowerbed.flowers)
 		{
 			allFlowers.insert(flower);
 		}

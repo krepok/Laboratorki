@@ -188,7 +188,7 @@ MapStudents getInfo(std::ifstream& fin) // получает информацию
 double getAverage(const SStudData& student)
 {
 	int average{};
-	for (auto& mark : student.marks)
+	for (const auto& mark : student.marks)
 	{
 		average += mark.mark;
 	}
@@ -198,7 +198,7 @@ double getAverage(const SStudData& student)
 std::map<int, double> getAllAverages(const MapStudents students)
 {
 	std::map<int, double> averages{};
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
 		averages[id] = getAverage(student);
 	}
@@ -212,7 +212,7 @@ void printStudents(const MapStudents& students)
 		std::cout << "There are no such students!\n";
 		return;
 	}
-	for (auto& [left, right] : students)
+	for (const auto& [left, right] : students)
 	{
 		std::cout << right;
 	}
@@ -222,9 +222,9 @@ void printStudents(const MapStudents& students)
 MultimapStudents getVectorStAv(MapStudents students)
 {
 	MultimapStudents studentsAverages{};
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
-		studentsAverages.insert({ student, getAverage(student) });
+		studentsAverages.insert(std::pair<SStudData, double>{ student, getAverage(student) });
 	}
 	return studentsAverages;
 }
@@ -238,7 +238,7 @@ void printStudentsAverages(const MapStudents& students)
 	}
 	MultimapStudents studentsAv{ getVectorStAv(students) };
 	int counter{ 1 };
-	for (auto& [student, average] : studentsAv)
+	for (const auto& [student, average] : studentsAv)
 	{
 		std::cout << counter++ << ". " << student.name << ", " << student.id << ", average grade: " << average << '\n';
 	}
@@ -252,7 +252,7 @@ void printStudentsAverages(const MultimapStudents& studentsAv)
 		return;
 	}
 	int counter{ 1 };
-	for (auto& [student, average] : studentsAv)
+	for (const auto& [student, average] : studentsAv)
 	{
 		std::cout << counter++ << ". " << student.name << ", " << student.id << ", average grade: " << average << '\n';
 	}
@@ -266,7 +266,7 @@ void printStudentsAverages(const MultimapAverage& studentsAv)
 		return;
 	}
 	int counter{ 1 };
-	for (auto& [average, student] : studentsAv)
+	for (const auto& [average, student] : studentsAv)
 	{
 		std::cout << counter++ << ". " << student.name << ", " << student.id << ", average grade: " << average << '\n';
 	}
@@ -277,11 +277,11 @@ MultimapAverage getStudentsRange(const MapStudents& students, double lower, doub
 	MultimapStudents studentsAv{ getVectorStAv(students) };
 	MultimapAverage inRange{};
 
-	for (auto& [student, average] : studentsAv)
+	for (const auto& [student, average] : studentsAv)
 	{
 		if (average >= lower && average <= higher)
 		{
-			inRange.insert({ average, student });
+			inRange.insert(std::pair<double, SStudData>{ average, student });
 		}
 	}
 
@@ -310,9 +310,9 @@ MapStudents getStudentsSubject(const MapStudents& students, std::string_view sub
 {
 	MapStudents studentsSubject{};
 
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
-		for (auto& mark : student.marks)
+		for (const auto& mark : student.marks)
 		{
 			if (mark.subject == subject)
 			{
@@ -328,9 +328,9 @@ MapStudents getStudentsSubject(const MapStudents& students, std::string_view sub
 std::set<std::string> getAllSubjects(const MapStudents& students)
 {
 	std::set<std::string> allSubjects{};
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
-		for (auto& mark : student.marks)
+		for (const auto& mark : student.marks)
 		{
 			allSubjects.insert(mark.subject);
 		}
@@ -341,9 +341,9 @@ std::set<std::string> getAllSubjects(const MapStudents& students)
 int getNumOfStudents(const MapStudents& students, std::string_view subject)
 {
 	int counter{};
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
-		for (auto& mark : student.marks)
+		for (const auto& mark : student.marks)
 		{
 			if (mark.subject == subject)
 			{
@@ -370,9 +370,9 @@ double averageSubject(const MapStudents& students, std::string_view subject)
 {
 	int sum{};
 	int counter{};
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
-		for (auto& mark : student.marks)
+		for (const auto& mark : student.marks)
 		{
 			if (mark.subject == subject)
 			{
@@ -389,7 +389,7 @@ void printAverageSubject(const MapStudents& students)
 	std::set<std::string> allSubjects{ getAllSubjects(students) };
 
 	std::cout << "Subjects/average grade:\n";
-	for (auto& subject : allSubjects)
+	for (const auto& subject : allSubjects)
 	{
 		std::cout << subject << ": " << averageSubject(students, subject) << '\n';
 	}
@@ -401,7 +401,7 @@ MultimapStudents getStudentsMaxAv(MapStudents students)
 	double max{ -1 };
 	MultimapStudents studentsMax{};
 
-	for (auto& [student, av] : studentsAverages)
+	for (const auto& [student, av] : studentsAverages)
 	{
 		if (av == max)
 		{
@@ -423,9 +423,9 @@ MapStudents getStudentsFailed(MapStudents students)
 {
 	MapStudents studentsFailed{};
 
-	for (auto& [id, student] : students)
+	for (const auto& [id, student] : students)
 	{
-		for (auto& mark : student.marks)
+		for (const auto& mark : student.marks)
 		{
 			if (mark.mark < 4)
 			{
