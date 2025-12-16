@@ -1,0 +1,86 @@
+Your array is:
+------------------
+Course: 1 group: 1
+Name: Randall Robinson
+Grades:1 1 1 
+------------------
+Course: 1 group: 2
+Name: Ellis Herman
+Grades:5 4 8 
+------------------
+Course: 1 group: 2
+Name: Ivanov Kirill
+Grades:1 2 3 
+------------------
+Course: 1 group: 2
+Name: Nigel Ho
+Grades:10 7 10 
+------------------
+Course: 1 group: 2
+Name: Susanne Collins
+Grades:7 4 8 
+------------------
+Course: 2 group: 1
+Name: Georgette Fritz
+Grades:9 8 10 
+------------------
+Course: 2 group: 1
+Name: Katy Jensen
+Grades:9 4 9 
+------------------
+Course: 2 group: 1
+Name: Lacey Marshall
+Grades:8 6 4 
+------------------
+Course: 2 group: 1
+Name: Lessie Delacruz
+Grades:1 5 1 
+------------------
+Course: 2 group: 3
+Name: Bart Werner
+Grades:1 2 4 
+------------------
+Course: 2 group: 3
+Name: Ruby Raymond
+Grades:4 3 1 
+------------------
+Course: 2 group: 4
+Name: Nicky Gallagher
+Grades:7 5 4 
+------------------
+Course: 3 group: 1
+Name: Clayton Mercado
+Grades:3 3 3 
+------------------
+Course: 3 group: 1
+Name: Gabriel Washington
+Grades:5 1 1 
+------------------
+Course: 3 group: 1
+Name: Noemi Larson
+Grades:4 4 4 
+------------------
+Course: 3 group: 1
+Name: Nora Hanson
+Grades:2 2 2 
+------------------
+Course: 3 group: 1
+Name: Penelope Gomez
+Grades:10 10 10 
+------------------
+Course: 3 group: 2
+Name: Norma Eaton
+Grades:4 1 8 
+------------------
+Course: 3 group: 2
+Name: Val Hardy
+Grades:5 4 7 
+------------------
+Course: 3 group: 4
+Name: Andre Roberts
+Grades:5 5 8 
+------------------
+Course: 3 group: 4
+Name: Juliette Ayers
+Grades:1 5 3 
+
